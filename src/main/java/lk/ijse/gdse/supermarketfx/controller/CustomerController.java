@@ -16,14 +16,13 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.gdse.supermarketfx.dto.tm.CustomerTM;
+import lk.ijse.gdse.supermarketfx.model.CustomerModel;
 
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.ResourceBundle;
 
@@ -51,6 +50,7 @@ public class CustomerController implements Initializable {
     @FXML
     private TableView<CustomerTM> tblCustomer;
 
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         // set table column to cell factory value
@@ -60,22 +60,34 @@ public class CustomerController implements Initializable {
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
-
         // load data to table (50 - 64)
-        CustomerTM customerTM = new CustomerTM("C001", "amal", "000000000000", "sample@gmail.com", "0777777777");
-        CustomerTM customerTM2 = new CustomerTM("C002", "amal", "000000000000", "sample@gmail.com", "0777777777");
-
-        ArrayList<CustomerTM> customertmsArray = new ArrayList<>();
-        customertmsArray.add(customerTM);
-        customertmsArray.add(customerTM2);
-
-        ObservableList<CustomerTM> customerTMS = FXCollections.observableArrayList();
-
-        for (CustomerTM customer : customertmsArray) {
-            customerTMS.add(customer);
+//        CustomerTM customerTM = new CustomerTM("C001", "amal", "000000000000", "sample@gmail.com", "0777777777");
+//        CustomerTM customerTM2 = new CustomerTM("C002", "amal", "000000000000", "sample@gmail.com", "0777777777");
+//
+//        ArrayList<CustomerTM> customertmsArray = new ArrayList<>();
+//        customertmsArray.add(customerTM);
+//        customertmsArray.add(customerTM2);
+//
+//        ObservableList<CustomerTM> customerTMS = FXCollections.observableArrayList();
+//
+//        for (CustomerTM customer : customertmsArray) {
+//            customerTMS.add(customer);
+//        }
+//
+//        tblCustomer.setItems(customerTMS);
+        // inside initialize method
+        try{
+            loadNextCustomerId();
+        }catch (Exception e){
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR,"Fail to load customer id").show();
         }
+    }
 
-        tblCustomer.setItems(customerTMS);
+    CustomerModel customerModel = new CustomerModel();
+    public void loadNextCustomerId() throws SQLException {
+        String nextCustomerId = customerModel.getNextCustomerId();
+        lblCustomerId.setText(nextCustomerId);
     }
 
     @FXML
