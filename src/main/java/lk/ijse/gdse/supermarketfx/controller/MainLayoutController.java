@@ -14,14 +14,24 @@ package lk.ijse.gdse.supermarketfx.controller;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.layout.AnchorPane;
 
 import java.io.IOException;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class MainLayoutController {
+public class MainLayoutController implements Initializable {
     @FXML
     private AnchorPane content;
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        System.out.println("MainLayout :- i'm here........");
+        navigateTo("/view/CustomerView.fxml");
+    }
+
     @FXML
     void navigateCustomerOnAction(ActionEvent event) {
         navigateTo("/view/CustomerView.fxml");
@@ -43,4 +53,5 @@ public class MainLayoutController {
             new Alert(Alert.AlertType.ERROR, "Fail to load ui !").show();
         }
     }
+
 }
