@@ -1,6 +1,7 @@
 package lk.ijse.gdse.supermarketfx.model;
 
 import lk.ijse.gdse.supermarketfx.db.DBConnection;
+import lk.ijse.gdse.supermarketfx.dto.CustomerDTO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -35,6 +36,23 @@ public class CustomerModel {
         }
         return  "C001";
     }
+
+    public boolean saveCustomer(CustomerDTO customerDTO) throws SQLException {
+        Connection connection = DBConnection.getInstance().getConnection();
+        String sql = "insert into customer values (?,?,?,?,?)";
+        PreparedStatement pst = connection.prepareStatement(sql);
+
+        pst.setObject(1,customerDTO.getCustomerId());
+        pst.setObject(2,customerDTO.getName());
+        pst.setObject(3,customerDTO.getNic());
+        pst.setObject(4,customerDTO.getEmail());
+        pst.setObject(5,customerDTO.getPhone());
+
+        int result = pst.executeUpdate();
+        boolean isSaved = result>0;
+        return isSaved;
+    }
+
 }
 
 

@@ -18,6 +18,7 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import lk.ijse.gdse.supermarketfx.dto.CustomerDTO;
 import lk.ijse.gdse.supermarketfx.dto.tm.CustomerTM;
 import lk.ijse.gdse.supermarketfx.model.CustomerModel;
 
@@ -75,22 +76,50 @@ public class CustomerController implements Initializable {
 //        }
 //
 //        tblCustomer.setItems(customerTMS);
+
         // inside initialize method
-        try{
+        try {
             loadNextCustomerId();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            new Alert(Alert.AlertType.ERROR,"Fail to load customer id").show();
+            new Alert(Alert.AlertType.ERROR, "Fail to load customer id").show();
         }
     }
 
     CustomerModel customerModel = new CustomerModel();
+
     public void loadNextCustomerId() throws SQLException {
+//        customerModel.helloCustomerModel();
         String nextCustomerId = customerModel.getNextCustomerId();
         lblCustomerId.setText(nextCustomerId);
     }
 
     @FXML
-    public void btnSaveOnAction(ActionEvent actionEvent) {
+    public void btnSaveOnAction(ActionEvent actionEvent) throws SQLException {
+        String customerId = lblCustomerId.getText();
+        String name = txtName.getText();
+        String nic = txtNic.getText();
+        String email = txtEmail.getText();
+        String phone = txtPhone.getText();
+
+        CustomerDTO customerDTO = new CustomerDTO(
+                customerId,
+                name,
+                nic,
+                email,
+                phone
+        );
+
+       boolean isSaved =  customerModel.saveCustomer(customerDTO);
+       if(isSaved){
+           loadNextCustomerId();
+           txtName.setText("");
+           txtNic.setText("");
+           txtEmail.setText("");
+           txtPhone.setText("");
+           new Alert(Alert.AlertType.INFORMATION,"Customer saved...!").show();
+       }else{
+           new Alert(Alert.AlertType.ERROR,"Fail to save customer...!").show();
+       }
     }
 }
