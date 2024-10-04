@@ -4,6 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import lk.ijse.gdse.supermarketfx.dto.tm.CustomerTM;
 
 import java.io.IOException;
 
