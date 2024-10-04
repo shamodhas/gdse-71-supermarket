@@ -13,10 +13,13 @@ package lk.ijse.gdse.supermarketfx.controller;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
 import lk.ijse.gdse.supermarketfx.dto.tm.CustomerTM;
 
@@ -25,6 +28,16 @@ import java.util.ArrayList;
 import java.util.ResourceBundle;
 
 public class CustomerController implements Initializable {
+    @FXML
+    public Label lblCustomerId;
+    @FXML
+    public TextField txtName;
+    @FXML
+    public TextField txtNic;
+    @FXML
+    public TextField txtEmail;
+    @FXML
+    public TextField txtPhone;
     @FXML
     private TableColumn<CustomerTM, String> colCustomerId;
     @FXML
@@ -63,5 +76,9 @@ public class CustomerController implements Initializable {
         }
 
         tblCustomer.setItems(customerTMS);
+    }
+
+    @FXML
+    public void btnSaveOnAction(ActionEvent actionEvent) {
     }
 }
