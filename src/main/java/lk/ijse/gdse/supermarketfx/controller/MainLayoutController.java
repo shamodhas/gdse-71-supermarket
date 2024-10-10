@@ -23,35 +23,50 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class MainLayoutController implements Initializable {
+
     @FXML
     private AnchorPane content;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        System.out.println("MainLayout :- i'm here........");
         navigateTo("/view/CustomerView.fxml");
     }
 
     @FXML
-    void navigateCustomerOnAction(ActionEvent event) {
+    void navigateToCustomerPage(ActionEvent event) {
         navigateTo("/view/CustomerView.fxml");
     }
+
     @FXML
-    void navigateItemOnAction(ActionEvent event) {
+    void navigateToItemPage(ActionEvent event) {
         navigateTo("/view/ItemView.fxml");
     }
+
     @FXML
-    void navigateOrdersOnAction(ActionEvent event) {
+    void navigateToOrdersPage(ActionEvent event) {
         navigateTo("/view/OrdersView.fxml");
     }
-    private void navigateTo(String fxmlPath) {
+
+    public void navigateTo(String fxmlPath) {
         try {
             content.getChildren().clear();
             AnchorPane load = FXMLLoader.load(getClass().getResource(fxmlPath));
+
+//  -------- Loaded anchor edges are bound to the content anchor --------
+//      (1) Bind the loaded FXML to all edges of the content anchorPane
+            load.prefWidthProperty().bind(content.widthProperty());
+            load.prefHeightProperty().bind(content.heightProperty());
+
+//      (2) Bind the loaded FXML to all edges of the AnchorPane
+//            AnchorPane.setTopAnchor(load, 0.0);
+//            AnchorPane.setRightAnchor(load, 0.0);
+//            AnchorPane.setBottomAnchor(load, 0.0);
+//            AnchorPane.setLeftAnchor(load, 0.0);
+
             content.getChildren().add(load);
         } catch (IOException e) {
-            new Alert(Alert.AlertType.ERROR, "Fail to load ui !").show();
+            e.printStackTrace();
+            new Alert(Alert.AlertType.ERROR, "Fail to load page!").show();
         }
     }
-
 }
