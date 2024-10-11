@@ -3,6 +3,7 @@ package lk.ijse.gdse.supermarketfx;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
 import lk.ijse.gdse.supermarketfx.dto.tm.CustomerTM;
 
@@ -14,6 +15,10 @@ public class AppInitializer extends Application {
         FXMLLoader fxmlLoader = new FXMLLoader(AppInitializer.class.getResource("/view/MainLayout.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
         stage.setTitle("Supermarket FX");
+
+        Image image = new Image(getClass().getResourceAsStream("/images/app_icon.png"));
+        stage.getIcons().add(image);
+
         stage.setScene(scene);
         stage.show();
     }
