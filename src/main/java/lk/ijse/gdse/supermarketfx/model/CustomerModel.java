@@ -2,6 +2,7 @@ package lk.ijse.gdse.supermarketfx.model;
 
 import lk.ijse.gdse.supermarketfx.db.DBConnection;
 import lk.ijse.gdse.supermarketfx.dto.CustomerDTO;
+import lk.ijse.gdse.supermarketfx.util.CrudUtil;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -21,11 +22,14 @@ import java.sql.SQLException;
 
 public class CustomerModel {
     public String getNextCustomerId() throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "select customer_id from customer order by customer_id desc limit 1";
-        PreparedStatement pst = connection.prepareStatement(sql);
+//        Connection connection = DBConnection.getInstance().getConnection();
+//        String sql = "select customer_id from customer order by customer_id desc limit 1";
+//        PreparedStatement pst = connection.prepareStatement(sql);
 
-        ResultSet rst = pst.executeQuery();
+//        ResultSet rst = pst.executeQuery();
+
+       ResultSet rst =  CrudUtil.execute("select customer_id from customer order by customer_id desc limit 1");
+
         if (rst.next()){
             String lastId = rst.getString(1); // C002
             String substring = lastId.substring(1); // 002
@@ -38,18 +42,28 @@ public class CustomerModel {
     }
 
     public boolean saveCustomer(CustomerDTO customerDTO) throws SQLException {
-        Connection connection = DBConnection.getInstance().getConnection();
-        String sql = "insert into customer values (?,?,?,?,?)";
-        PreparedStatement pst = connection.prepareStatement(sql);
+//        Connection connection = DBConnection.getInstance().getConnection();
+//        String sql = "insert into customer values (?,?,?,?,?)";
+//        PreparedStatement pst = connection.prepareStatement(sql);
+//
+//        pst.setObject(1,customerDTO.getCustomerId());
+//        pst.setObject(2,customerDTO.getName());
+//        pst.setObject(3,customerDTO.getNic());
+//        pst.setObject(4,customerDTO.getEmail());
+//        pst.setObject(5,customerDTO.getPhone());
 
-        pst.setObject(1,customerDTO.getCustomerId());
-        pst.setObject(2,customerDTO.getName());
-        pst.setObject(3,customerDTO.getNic());
-        pst.setObject(4,customerDTO.getEmail());
-        pst.setObject(5,customerDTO.getPhone());
+//        int result = pst.executeUpdate();
+//        boolean isSaved = result>0;
 
-        int result = pst.executeUpdate();
-        boolean isSaved = result>0;
+      boolean isSaved =  CrudUtil.execute(
+              "insert into customer values (?,?,?,?,?)",
+              customerDTO.getCustomerId(),
+              customerDTO.getName(),
+              customerDTO.getNic(),
+              customerDTO.getEmail(),
+              customerDTO.getPhone()
+      );
+
         return isSaved;
     }
 
