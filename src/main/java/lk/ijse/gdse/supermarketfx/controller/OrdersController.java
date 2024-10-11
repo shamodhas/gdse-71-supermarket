@@ -212,10 +212,6 @@ public class OrdersController implements Initializable {
             orderDetailsDTOS.add(orderDetailsDTO);
         }
 
-        // orders -> itemId, cusId, date
-        // orderdetails list
-        //      -> orderId, itemId, qty, price
-
         OrderDTO orderDTO = new OrderDTO(orderId, customerId, dateOfOrder, orderDetailsDTOS);
 
        boolean isSaved =  orderModel.saveOrder(orderDTO);
