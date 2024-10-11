@@ -17,6 +17,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.*;
+import lk.ijse.gdse.supermarketfx.dto.CustomerDTO;
 import lk.ijse.gdse.supermarketfx.model.CustomerModel;
 import lk.ijse.gdse.supermarketfx.model.ItemModel;
 import lk.ijse.gdse.supermarketfx.model.OrderModel;
@@ -106,6 +107,11 @@ public class OrdersController implements Initializable {
         itemIdsTMS.addAll(itemIds);
         cmbItemId.setItems(itemIdsTMS);
 
+//        cmbCustomerId.setOnAction(e->{
+//            String selectedCusId = cmbCustomerId.getSelectionModel().getSelectedItem();
+//            System.out.println(selectedCusId);
+//        });
+
     }
 
     @FXML
@@ -124,8 +130,13 @@ public class OrdersController implements Initializable {
     }
 
     @FXML
-    void cmbCustomerOnAction(ActionEvent event) {
+    void cmbCustomerOnAction(ActionEvent event) throws SQLException {
+        String selectedCusId = cmbCustomerId.getSelectionModel().getSelectedItem();
+        CustomerDTO customerDTO = customerModel.findById(selectedCusId);
 
+        if (customerDTO != null){
+            lblCustomerName.setText(customerDTO.getName());
+        }
     }
 
     @FXML
