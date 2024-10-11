@@ -1,7 +1,10 @@
 package lk.ijse.gdse.supermarketfx.model;
 
+import lk.ijse.gdse.supermarketfx.db.DBConnection;
+import lk.ijse.gdse.supermarketfx.dto.OrderDTO;
 import lk.ijse.gdse.supermarketfx.util.CrudUtil;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -17,6 +20,8 @@ import java.sql.SQLException;
  **/
 
 public class OrderModel {
+    private final OrderDetailsModel orderDetailsModel=new OrderDetailsModel();
+
     public String getNextOrderId() throws SQLException {
         ResultSet rst =  CrudUtil.execute("select order_id from orders order by order_id desc limit 1");
 
@@ -29,5 +34,33 @@ public class OrderModel {
             return String.format("O%03d",newIdIndex);
         }
         return  "O001";
+    }
+
+    public boolean saveOrder(OrderDTO orderDTO) throws SQLException {
+        Connection connection = DBConnection.getInstance().getConnection();
+        try{
+            connection.setAutoCommit(false); // 1
+
+            boolean isOrderSaved = CrudUtil.execute(
+                    "insert into orders values (?,?,?)",
+                    orderDTO.getOrderId(),
+                    orderDTO.getCustomerId(),
+                    orderDTO.getOrderDate()
+            );
+            if (isOrderSaved){
+               boolean isOrderDetailListSaved =  orderDetailsModel.saveOrderDetailsList(orderDTO.getOrderDetailsDTOS());
+               if (isOrderDetailListSaved){
+                   connection.commit(); // 2
+                   return true;
+               }
+            }
+            connection.rollback(); // 3
+            return false;
+        }catch (Exception e){
+            connection.rollback();
+            return false;
+        }finally {
+            connection.setAutoCommit(true); // 4
+        }
     }
 }
