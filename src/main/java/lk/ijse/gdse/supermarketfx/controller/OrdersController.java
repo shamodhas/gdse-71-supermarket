@@ -11,21 +11,29 @@ package lk.ijse.gdse.supermarketfx.controller;
  * --------------------------------------------
  **/
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
-import javafx.scene.control.TextField;
+import javafx.fxml.Initializable;
+import javafx.scene.control.*;
+import lk.ijse.gdse.supermarketfx.model.CustomerModel;
+import lk.ijse.gdse.supermarketfx.model.ItemModel;
+import lk.ijse.gdse.supermarketfx.model.OrderModel;
 
-public class OrdersController {
+import java.net.URL;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.ResourceBundle;
+
+public class OrdersController implements Initializable {
 
     @FXML
-    private ComboBox<?> cmbCustomerId;
+    private ComboBox<String> cmbCustomerId;
 
     @FXML
-    private ComboBox<?> cmbItemId;
+    private ComboBox<String> cmbItemId;
 
     @FXML
     private TableColumn<?, ?> colAction;
@@ -69,6 +77,37 @@ public class OrdersController {
     @FXML
     private TextField txtAddToCartQty;
 
+    private final OrderModel orderModel = new OrderModel();
+    private final CustomerModel customerModel = new CustomerModel();
+    private final ItemModel itemModel = new ItemModel();
+
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle) {
+        try {
+            refreshPage();
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "Fail to load data").show();
+        }
+    }
+
+    private void refreshPage() throws SQLException {
+        lblOrderId.setText(orderModel.getNextOrderId());
+
+        orderDate.setText(LocalDate.now().toString());
+//        orderDate.setText(String.valueOf(LocalDate.now()));
+
+       ArrayList<String> customerIds = customerModel.getAllCustomerIds();
+        ObservableList<String> customerIdsTMS = FXCollections.observableArrayList();
+        customerIdsTMS.addAll(customerIds);
+        cmbCustomerId.setItems(customerIdsTMS);
+
+        ArrayList<String> itemIds = itemModel.getAllItemIds();
+        ObservableList<String> itemIdsTMS = FXCollections.observableArrayList();
+        itemIdsTMS.addAll(itemIds);
+        cmbItemId.setItems(itemIdsTMS);
+
+    }
+
     @FXML
     void btnAddToCartOnAction(ActionEvent event) {
 
@@ -93,6 +132,5 @@ public class OrdersController {
     void cmbItemOnAction(ActionEvent event) {
 
     }
-
 }
 
