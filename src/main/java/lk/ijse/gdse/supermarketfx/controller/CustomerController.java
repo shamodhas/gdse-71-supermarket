@@ -72,7 +72,6 @@ public class CustomerController implements Initializable {
         colEmail.setCellValueFactory(new PropertyValueFactory<>("email"));
         colPhone.setCellValueFactory(new PropertyValueFactory<>("phone"));
 
-        // load data to table (50 - 64)
 //        CustomerTM customerTM = new CustomerTM("C001", "amal", "000000000000", "sample@gmail.com", "0777777777");
 //        CustomerTM customerTM2 = new CustomerTM("C002", "amal", "000000000000", "sample@gmail.com", "0777777777");
 //
@@ -118,6 +117,18 @@ public class CustomerController implements Initializable {
         ArrayList<CustomerDTO> customerDTOS = customerModel.getAllCustomers();
 
         ObservableList<CustomerTM> customerTMS = FXCollections.observableArrayList();
+
+//        ObservableList<CustomerTM> customerTMS = FXCollections.observableArrayList();
+//        customerTMS.addAll(customerModel.getAllCustomer().stream().map(customerDTO->{
+//            return new CustomerTM(
+//                    customerDTO.getId(),
+//                    customerDTO.getName(),
+//                    customerDTO.getNic(),
+//                    customerDTO.getEmail(),
+//                    customerDTO.getPhone()
+//            );
+//        }).collect(Collectors.toList()));
+//        tblCustomer.setItems(customerTMS);
 
         for (CustomerDTO customerDTO : customerDTOS) {
             CustomerTM customerTM = new CustomerTM(
@@ -167,7 +178,7 @@ public class CustomerController implements Initializable {
     @FXML
     void onClickTable(MouseEvent event) {
         CustomerTM customerTM = tblCustomer.getSelectionModel().getSelectedItem();
-        if (customerTM != null){
+        if (customerTM != null) {
             lblCustomerId.setText(customerTM.getCustomerId());
             txtName.setText(customerTM.getName());
             txtNic.setText(customerTM.getNic());
@@ -189,7 +200,7 @@ public class CustomerController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.CONFIRMATION, "Are you sure?", ButtonType.YES, ButtonType.NO);
         Optional<ButtonType> optionalButtonType = alert.showAndWait();
 
-        if (optionalButtonType.isPresent() && optionalButtonType.get() == ButtonType.YES){
+        if (optionalButtonType.isPresent() && optionalButtonType.get() == ButtonType.YES) {
 
             boolean isDeleted = customerModel.deleteCustomer(customerId);
             if (isDeleted) {
