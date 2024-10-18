@@ -358,38 +358,35 @@ public class CustomerController implements Initializable {
     public void orderReportOnAction(ActionEvent actionEvent) {
         CustomerTM customerTM = tblCustomer.getSelectionModel().getSelectedItem();
 
-        if (customerTM != null){
-            try {
-                JasperReport jasperReport = JasperCompileManager.compileReport(
-                        getClass()
-                                .getResourceAsStream("/report/customer_order_report_gdese_71.jrxml"
-                                ));
+        if (customerTM == null){
+            return;
+        }
 
-                Connection connection = DBConnection.getInstance().getConnection();
+        try {
+            JasperReport jasperReport = JasperCompileManager.compileReport(
+                    getClass()
+                            .getResourceAsStream("/report/CustomerOrderDetailsReport.jrxml"
+                            ));
 
-//                P_Date
-//                P_Customer_Id
+            Connection connection = DBConnection.getInstance().getConnection();
 
-                // <key(string), value(object)>
-                Map<String, Object> parameters = new HashMap<>();
+            Map<String, Object> parameters = new HashMap<>();
 
-                String customerId = customerTM.getCustomerId();
-                parameters.put("P_Date", LocalDate.now().toString());
-                parameters.put("P_Customer_Id", customerId);
+            parameters.put("P_Date",LocalDate.now().toString());
+            parameters.put("P_Customer_Id",customerTM.getCustomerId());
 
-                JasperPrint jasperPrint = JasperFillManager.fillReport(
-                        jasperReport,
-                        parameters,
-                        connection
-                );
+            JasperPrint jasperPrint = JasperFillManager.fillReport(
+                    jasperReport,
+                    parameters,
+                    connection
+            );
 
-                JasperViewer.viewReport(jasperPrint, false);
-            } catch (JRException e) {
-                new Alert(Alert.AlertType.ERROR, "Fail to generate report...!").show();
+            JasperViewer.viewReport(jasperPrint, false);
+        } catch (JRException e) {
+            new Alert(Alert.AlertType.ERROR, "Fail to generate report...!").show();
 //           e.printStackTrace();
-            } catch (SQLException e) {
-                new Alert(Alert.AlertType.ERROR, "DB error...!").show();
-            }
+        } catch (SQLException e) {
+            new Alert(Alert.AlertType.ERROR, "DB error...!").show();
         }
     }
 }
