@@ -134,6 +134,18 @@
                   </Button>
                </children>
             </HBox>
+            <HBox alignment="CENTER_RIGHT" layoutX="30.0" layoutY="200.0" spacing="30.0">
+               <children>
+                  <Button layoutX="10.0" layoutY="10.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#generateAllCustomerReportOnAction" style="-fx-background-color: #7f8c8d;" text="Generate All Customer Report" textFill="WHITE" HBox.hgrow="ALWAYS">
+                     <font>
+                        <Font name="Calibri Bold" size="14.0" />
+                     </font>
+                     <cursor>
+                        <Cursor fx:constant="CLOSED_HAND" />
+                     </cursor>
+                  </Button>
+               </children>
+            </HBox>
             <TableView fx:id="tblCustomer" onMouseClicked="#onClickTable" prefHeight="200.0" prefWidth="200.0" VBox.vgrow="ALWAYS">
                <columns>
                   <TableColumn fx:id="colCustomerId" prefWidth="75.0" text="Customer Id" />
