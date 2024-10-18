@@ -28,6 +28,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.regex.Pattern;
 
 public class CustomerController implements Initializable {
 
@@ -158,20 +159,67 @@ public class CustomerController implements Initializable {
         String email = txtEmail.getText();
         String phone = txtPhone.getText();
 
-        CustomerDTO customerDTO = new CustomerDTO(
-                customerId,
-                name,
-                nic,
-                email,
-                phone
-        );
+//        [A-Za-z ]+
+//        (1)
+//        Pattern namePattern = Pattern.compile("^[A-Za-z ]+$");
+//        boolean isValidName = namePattern.matcher(name).matches();
+//        System.out.println("method 1 : "+isValidName);
 
-        boolean isSaved = customerModel.saveCustomer(customerDTO);
-        if (isSaved) {
-            refreshPage();
-            new Alert(Alert.AlertType.INFORMATION, "Customer saved...!").show();
-        } else {
-            new Alert(Alert.AlertType.ERROR, "Fail to save customer...!").show();
+//        (2)
+//        System.out.println("method 2 : "+name.matches("^[A-Za-z ]+$"));
+
+        txtName.setStyle(txtName.getStyle()+";-fx-border-color: #7367F0;");
+        txtNic.setStyle(txtNic.getStyle()+";-fx-border-color: #7367F0;");
+        txtEmail.setStyle(txtEmail.getStyle()+";-fx-border-color: #7367F0;");
+        txtPhone.setStyle(txtPhone.getStyle()+";-fx-border-color: #7367F0;");
+
+        String namePattern = "^[A-Za-z ]+$";
+        String nicPattern = "^[0-9]{9}[vVxX]||[0-9]{12}$";
+        String emailPattern = "^[\\w!#$%&'*+/=?`{|}~^-]+(?:\\.[\\w!#$%&'*+/=?`{|}~^-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,6}$";
+        String phonePattern = "^(\\d+)||((\\d+\\.)(\\d){2})$";
+
+        boolean isValidName = name.matches(namePattern);
+        boolean isValidNic = nic.matches(nicPattern);
+        boolean isValidEmail = email.matches(emailPattern);
+        boolean isValidPhone = phone.matches(phonePattern);
+
+        if (!isValidName){
+            System.out.println(txtName.getStyle());
+            txtName.setStyle(txtName.getStyle()+";-fx-border-color: red;");
+            System.out.println("Invalid name.............");
+//            return;
+        }
+
+        if (!isValidNic){
+            txtNic.setStyle(txtNic.getStyle()+";-fx-border-color: red;");
+//            return;
+        }
+
+        if (!isValidEmail){
+            txtEmail.setStyle(txtEmail.getStyle()+";-fx-border-color: red;");
+        }
+
+        if (!isValidPhone){
+            txtPhone.setStyle(txtPhone.getStyle()+";-fx-border-color: red;");
+        }
+
+
+        if (isValidName && isValidNic && isValidEmail && isValidPhone){
+            CustomerDTO customerDTO = new CustomerDTO(
+                    customerId,
+                    name,
+                    nic,
+                    email,
+                    phone
+            );
+
+            boolean isSaved = customerModel.saveCustomer(customerDTO);
+            if (isSaved) {
+                refreshPage();
+                new Alert(Alert.AlertType.INFORMATION, "Customer saved...!").show();
+            } else {
+                new Alert(Alert.AlertType.ERROR, "Fail to save customer...!").show();
+            }
         }
     }
 
