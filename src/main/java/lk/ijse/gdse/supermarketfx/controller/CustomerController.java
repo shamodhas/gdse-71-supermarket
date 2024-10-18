@@ -29,9 +29,8 @@ import net.sf.jasperreports.view.JasperViewer;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.Optional;
-import java.util.ResourceBundle;
+import java.time.LocalDate;
+import java.util.*;
 
 public class CustomerController implements Initializable {
 
@@ -352,6 +351,45 @@ public class CustomerController implements Initializable {
 //           e.printStackTrace();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "DB error...!").show();
+        }
+    }
+
+    @FXML
+    public void orderReportOnAction(ActionEvent actionEvent) {
+        CustomerTM customerTM = tblCustomer.getSelectionModel().getSelectedItem();
+
+        if (customerTM != null){
+            try {
+                JasperReport jasperReport = JasperCompileManager.compileReport(
+                        getClass()
+                                .getResourceAsStream("/report/customer_order_report_gdese_71.jrxml"
+                                ));
+
+                Connection connection = DBConnection.getInstance().getConnection();
+
+//                P_Date
+//                P_Customer_Id
+
+                // <key(string), value(object)>
+                Map<String, Object> parameters = new HashMap<>();
+
+                String customerId = customerTM.getCustomerId();
+                parameters.put("P_Date", LocalDate.now().toString());
+                parameters.put("P_Customer_Id", customerId);
+
+                JasperPrint jasperPrint = JasperFillManager.fillReport(
+                        jasperReport,
+                        parameters,
+                        connection
+                );
+
+                JasperViewer.viewReport(jasperPrint, false);
+            } catch (JRException e) {
+                new Alert(Alert.AlertType.ERROR, "Fail to generate report...!").show();
+//           e.printStackTrace();
+            } catch (SQLException e) {
+                new Alert(Alert.AlertType.ERROR, "DB error...!").show();
+            }
         }
     }
 }
