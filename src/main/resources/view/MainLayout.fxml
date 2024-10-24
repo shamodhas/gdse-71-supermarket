@@ -44,6 +44,14 @@
                         <Font name="Calibri" size="18.0" />
                      </font>
                   </Button>
+                  <Button layoutX="10.0" layoutY="90.0" maxWidth="1.7976931348623157E308" mnemonicParsing="false" onAction="#navigateToSendMailPage" style="-fx-background-color: #7367F0;" text="Send Mail" textFill="WHITE">
+                     <cursor>
+                        <Cursor fx:constant="OPEN_HAND" />
+                     </cursor>
+                     <font>
+                        <Font name="Calibri" size="18.0" />
+                     </font>
+                  </Button>
                </children>
             </VBox>
          </children>

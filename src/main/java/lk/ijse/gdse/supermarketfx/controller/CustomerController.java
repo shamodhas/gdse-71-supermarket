@@ -15,10 +15,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+import javafx.stage.Window;
 import lk.ijse.gdse.supermarketfx.db.DBConnection;
 import lk.ijse.gdse.supermarketfx.dto.CustomerDTO;
 import lk.ijse.gdse.supermarketfx.dto.tm.CustomerTM;
@@ -26,6 +33,7 @@ import lk.ijse.gdse.supermarketfx.model.CustomerModel;
 import net.sf.jasperreports.engine.*;
 import net.sf.jasperreports.view.JasperViewer;
 
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.SQLException;
@@ -388,6 +396,34 @@ public class CustomerController implements Initializable {
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "DB error...!").show();
         }
+    }
+
+    @FXML
+    public void openSendMailModel(ActionEvent actionEvent) throws IOException {
+        CustomerTM customerTM = tblCustomer.getSelectionModel().getSelectedItem();
+        if (customerTM == null){
+            new Alert(Alert.AlertType.ERROR, "Please select customer...!").show();
+            return;
+        }
+
+        FXMLLoader sendMailViewFXMLLoader = new FXMLLoader(getClass().getResource("/view/SendMailView.fxml"));
+        Parent load = sendMailViewFXMLLoader.load();
+
+        SendMailController sendMailController = sendMailViewFXMLLoader.getController();
+
+        String email = customerTM.getEmail();
+        sendMailController.setCustomerEmail(email);
+
+        Stage stage = new Stage();
+        stage.setScene(new Scene(load));
+        stage.initModality(Modality.APPLICATION_MODAL);
+
+        Window window = btnSave.getScene().getWindow();
+
+        stage.initOwner(window);
+
+        stage.show();
+
     }
 }
 

@@ -69,4 +69,8 @@ public class MainLayoutController implements Initializable {
             new Alert(Alert.AlertType.ERROR, "Fail to load page!").show();
         }
     }
+
+    public void navigateToSendMailPage(ActionEvent actionEvent) {
+        navigateTo("/view/SendMailView.fxml");
+    }
 }
