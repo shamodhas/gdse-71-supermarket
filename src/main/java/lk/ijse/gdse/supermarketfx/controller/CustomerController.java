@@ -178,10 +178,10 @@ public class CustomerController implements Initializable {
 //        (2)
 //        System.out.println("method 2 : "+name.matches("^[A-Za-z ]+$"));
 
-        txtName.setStyle(txtName.getStyle()+";-fx-border-color: #7367F0;");
-        txtNic.setStyle(txtNic.getStyle()+";-fx-border-color: #7367F0;");
-        txtEmail.setStyle(txtEmail.getStyle()+";-fx-border-color: #7367F0;");
-        txtPhone.setStyle(txtPhone.getStyle()+";-fx-border-color: #7367F0;");
+        txtName.setStyle(txtName.getStyle() + ";-fx-border-color: #7367F0;");
+        txtNic.setStyle(txtNic.getStyle() + ";-fx-border-color: #7367F0;");
+        txtEmail.setStyle(txtEmail.getStyle() + ";-fx-border-color: #7367F0;");
+        txtPhone.setStyle(txtPhone.getStyle() + ";-fx-border-color: #7367F0;");
 
         String namePattern = "^[A-Za-z ]+$";
         String nicPattern = "^[0-9]{9}[vVxX]||[0-9]{12}$";
@@ -193,28 +193,28 @@ public class CustomerController implements Initializable {
         boolean isValidEmail = email.matches(emailPattern);
         boolean isValidPhone = phone.matches(phonePattern);
 
-        if (!isValidName){
+        if (!isValidName) {
             System.out.println(txtName.getStyle());
-            txtName.setStyle(txtName.getStyle()+";-fx-border-color: red;");
+            txtName.setStyle(txtName.getStyle() + ";-fx-border-color: red;");
             System.out.println("Invalid name.............");
 //            return;
         }
 
-        if (!isValidNic){
-            txtNic.setStyle(txtNic.getStyle()+";-fx-border-color: red;");
+        if (!isValidNic) {
+            txtNic.setStyle(txtNic.getStyle() + ";-fx-border-color: red;");
 //            return;
         }
 
-        if (!isValidEmail){
-            txtEmail.setStyle(txtEmail.getStyle()+";-fx-border-color: red;");
+        if (!isValidEmail) {
+            txtEmail.setStyle(txtEmail.getStyle() + ";-fx-border-color: red;");
         }
 
-        if (!isValidPhone){
-            txtPhone.setStyle(txtPhone.getStyle()+";-fx-border-color: red;");
+        if (!isValidPhone) {
+            txtPhone.setStyle(txtPhone.getStyle() + ";-fx-border-color: red;");
         }
 
 
-        if (isValidName && isValidNic && isValidEmail && isValidPhone){
+        if (isValidName && isValidNic && isValidEmail && isValidPhone) {
             CustomerDTO customerDTO = new CustomerDTO(
                     customerId,
                     name,
@@ -278,10 +278,10 @@ public class CustomerController implements Initializable {
         String email = txtEmail.getText();
         String phone = txtPhone.getText();
 
-        txtName.setStyle(txtName.getStyle()+";-fx-border-color: #7367F0;");
-        txtNic.setStyle(txtNic.getStyle()+";-fx-border-color: #7367F0;");
-        txtEmail.setStyle(txtEmail.getStyle()+";-fx-border-color: #7367F0;");
-        txtPhone.setStyle(txtPhone.getStyle()+";-fx-border-color: #7367F0;");
+        txtName.setStyle(txtName.getStyle() + ";-fx-border-color: #7367F0;");
+        txtNic.setStyle(txtNic.getStyle() + ";-fx-border-color: #7367F0;");
+        txtEmail.setStyle(txtEmail.getStyle() + ";-fx-border-color: #7367F0;");
+        txtPhone.setStyle(txtPhone.getStyle() + ";-fx-border-color: #7367F0;");
 
         String namePattern = "^[A-Za-z ]+$";
         String nicPattern = "^[0-9]{9}[vVxX]||[0-9]{12}$";
@@ -293,24 +293,24 @@ public class CustomerController implements Initializable {
         boolean isValidEmail = email.matches(emailPattern);
         boolean isValidPhone = phone.matches(phonePattern);
 
-        if (!isValidName){
+        if (!isValidName) {
             System.out.println(txtName.getStyle());
-            txtName.setStyle(txtName.getStyle()+";-fx-border-color: red;");
+            txtName.setStyle(txtName.getStyle() + ";-fx-border-color: red;");
             System.out.println("Invalid name.............");
 //            return;
         }
 
-        if (!isValidNic){
-            txtNic.setStyle(txtNic.getStyle()+";-fx-border-color: red;");
+        if (!isValidNic) {
+            txtNic.setStyle(txtNic.getStyle() + ";-fx-border-color: red;");
 //            return;
         }
 
-        if (!isValidEmail){
-            txtEmail.setStyle(txtEmail.getStyle()+";-fx-border-color: red;");
+        if (!isValidEmail) {
+            txtEmail.setStyle(txtEmail.getStyle() + ";-fx-border-color: red;");
         }
 
-        if (!isValidPhone){
-            txtPhone.setStyle(txtPhone.getStyle()+";-fx-border-color: red;");
+        if (!isValidPhone) {
+            txtPhone.setStyle(txtPhone.getStyle() + ";-fx-border-color: red;");
         }
 
         if (isValidName && isValidNic && isValidEmail && isValidPhone) {
@@ -355,7 +355,7 @@ public class CustomerController implements Initializable {
 
             JasperViewer.viewReport(jasperPrint, false);
         } catch (JRException e) {
-           new Alert(Alert.AlertType.ERROR, "Fail to generate report...!").show();
+            new Alert(Alert.AlertType.ERROR, "Fail to generate report...!").show();
 //           e.printStackTrace();
         } catch (SQLException e) {
             new Alert(Alert.AlertType.ERROR, "DB error...!").show();
@@ -366,7 +366,7 @@ public class CustomerController implements Initializable {
     public void orderReportOnAction(ActionEvent actionEvent) {
         CustomerTM customerTM = tblCustomer.getSelectionModel().getSelectedItem();
 
-        if (customerTM == null){
+        if (customerTM == null) {
             return;
         }
 
@@ -380,8 +380,8 @@ public class CustomerController implements Initializable {
 
             Map<String, Object> parameters = new HashMap<>();
 
-            parameters.put("P_Date",LocalDate.now().toString());
-            parameters.put("P_Customer_Id",customerTM.getCustomerId());
+            parameters.put("P_Date", LocalDate.now().toString());
+            parameters.put("P_Customer_Id", customerTM.getCustomerId());
 
             JasperPrint jasperPrint = JasperFillManager.fillReport(
                     jasperReport,
@@ -399,31 +399,38 @@ public class CustomerController implements Initializable {
     }
 
     @FXML
-    public void openSendMailModel(ActionEvent actionEvent) throws IOException {
-        CustomerTM customerTM = tblCustomer.getSelectionModel().getSelectedItem();
-        if (customerTM == null){
-            new Alert(Alert.AlertType.ERROR, "Please select customer...!").show();
+    public void openSendMailModel(ActionEvent actionEvent) {
+        CustomerTM selectedItem = tblCustomer.getSelectionModel().getSelectedItem();
+        if (selectedItem == null) {
+            new Alert(Alert.AlertType.WARNING, "Please select customer..!");
             return;
         }
 
-        FXMLLoader sendMailViewFXMLLoader = new FXMLLoader(getClass().getResource("/view/SendMailView.fxml"));
-        Parent load = sendMailViewFXMLLoader.load();
+        try {
+            // Load the mail dialog from FXML file
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/SendMailView.fxml"));
+            Parent load = loader.load();
 
-        SendMailController sendMailController = sendMailViewFXMLLoader.getController();
+            SendMailController sendMailController = loader.getController();
 
-        String email = customerTM.getEmail();
-        sendMailController.setCustomerEmail(email);
+            String email = selectedItem.getEmail();
+            sendMailController.setCustomerEmail(email);
 
-        Stage stage = new Stage();
-        stage.setScene(new Scene(load));
-        stage.initModality(Modality.APPLICATION_MODAL);
+            Stage stage = new Stage();
+            stage.setScene(new Scene(load));
+            stage.setTitle("Send email");
 
-        Window window = btnSave.getScene().getWindow();
+            // Set window as modal
+            stage.initModality(Modality.APPLICATION_MODAL);
 
-        stage.initOwner(window);
+            Window underWindow = btnUpdate.getScene().getWindow();
+            stage.initOwner(underWindow);
 
-        stage.show();
-
+            stage.showAndWait();
+        } catch (IOException e) {
+            new Alert(Alert.AlertType.ERROR, "Fail to load ui..!");
+            e.printStackTrace();
+        }
     }
 }
 
