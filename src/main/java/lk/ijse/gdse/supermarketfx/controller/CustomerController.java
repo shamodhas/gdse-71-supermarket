@@ -21,6 +21,7 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
@@ -419,6 +420,7 @@ public class CustomerController implements Initializable {
             Stage stage = new Stage();
             stage.setScene(new Scene(load));
             stage.setTitle("Send email");
+            stage.getIcons().add(new Image(getClass().getResourceAsStream("/images/mail_icon.png")));
 
             // Set window as modal
             stage.initModality(Modality.APPLICATION_MODAL);

@@ -17,25 +17,26 @@ public class AppInitializer extends Application {
         stage.setScene(new Scene(load));
         stage.show();
 
-       Task<Scene> loadingTask = new Task<Scene>() {
-           @Override
-           protected Scene call() throws Exception {
-               FXMLLoader fxmlLoader = new FXMLLoader(AppInitializer.class.getResource("/view/MainLayout.fxml"));
-               return new Scene(fxmlLoader.load());
-           }
-       };
+        Task<Scene> loadingTask = new Task<Scene>() {
+            @Override
+            protected Scene call() throws Exception {
+                FXMLLoader fxmlLoader = new FXMLLoader(AppInitializer.class.getResource("/view/MainLayout.fxml"));
+                return new Scene(fxmlLoader.load());
+            }
+        };
 
-       loadingTask.setOnSucceeded(event -> {
-           Scene value = loadingTask.getValue();
+        loadingTask.setOnSucceeded(event -> {
+            Scene value = loadingTask.getValue();
 
-           stage.setTitle("Supermarket FX");
-           Image image = new Image(getClass().getResourceAsStream("/images/app_icon.png"));
-           stage.getIcons().add(image);
+            stage.setTitle("Supermarket FX");
+            Image image = new Image(getClass().getResourceAsStream("/images/app_icon.png"));
+            stage.getIcons().add(image);
 
-           stage.setScene(value);
-       });
+            stage.setScene(value);
+            stage.setMaximized(true);
+        });
 
-       new Thread(loadingTask).start();
+        new Thread(loadingTask).start();
 
 //        FXMLLoader fxmlLoader = new FXMLLoader(AppInitializer.class.getResource("/view/MainLayout.fxml"));
 //        Scene scene = new Scene(fxmlLoader.load());
