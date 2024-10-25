@@ -20,7 +20,7 @@ public class AppInitializer extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         // Load and display the loading view
-        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/LoadingView.fxml"))));
+        stage.setScene(new Scene(FXMLLoader.load(getClass().getResource("/view/LoadingScreenView.fxml"))));
         stage.show();
 
         // Create a background task to load the main scene
